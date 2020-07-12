@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 
 const uri = 'mongodb+srv://dbUser:DBuser123451@cluster0.oyzgd.gcp.mongodb.net/testdb?retryWrites=true&w=majority';
 
-Book = require('./models/index');
+User = require('./models/index');
 
 var app = express();
 
@@ -33,14 +33,23 @@ mongoose.connect(uri,function(err){
 });
 var db = mongoose.connection;
 
-
-
-app.get('/api/books', (req, res) => {
-	Book.getBooks((err, books) => {
+app.post('/views/pages', (req, res) => {
+	var user = req.body;
+	User.addUser(user, (err, users) => {
 		if(err){
 			throw err;
 		}
-		res.json(books);
+		res.json(users);
+		res.render('pages/success');
+	});
+});
+
+app.get('/api/allUsers', function(req, res){
+	User.getUser(function(err, users) {
+		if(err){
+			throw err;
+		}
+		res.json(users);
 	});
 });
 

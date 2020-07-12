@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var consumerSchema = mongoose.Schema({
+const consumerSchema = new mongoose.Schema({
     name:{
         type: String,
         required:true
@@ -19,10 +19,14 @@ var consumerSchema = mongoose.Schema({
     }
 });
 
-const Book = module.exports = mongoose.model('Book', consumerSchema);
-
+const User = module.exports = mongoose.model('Users', consumerSchema);
 // Get User
 
-module.exports.getBooks = (callback, limit) => {
-	Book.find(callback).limit(limit);
+module.exports.getUser = function(callback, limit){
+    User.find(callback).limit(limit);
+    
+}
+
+module.exports.addUser = function(book, callback){
+	User.create(book, callback);
 }
