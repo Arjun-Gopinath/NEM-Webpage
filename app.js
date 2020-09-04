@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
+// Enter your mongodb uri
 const uri = 'mongodb+srv://dbUser:DBuser123451@cluster0.oyzgd.gcp.mongodb.net/testdb?retryWrites=true&w=majority';
 
 User = require('./models/index');
@@ -26,13 +27,14 @@ app.use(bodyParser.json());
 app.use(express.static('/')); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-
+//Connect to mongodb
 mongoose.connect(uri,function(err){
     if (err) throw err;
     console.log('Connected to db');
 });
 var db = mongoose.connection;
 
+//Display Success Page
 app.post('/views/pages', (req, res) => {
 	var user = req.body;
 	User.addUser(user, (err, users) => {
@@ -44,6 +46,7 @@ app.post('/views/pages', (req, res) => {
 	});
 });
 
+//Print All users
 app.get('/api/allUsers', function(req, res){
 	User.getUser(function(err, users) {
 		if(err){
@@ -53,6 +56,5 @@ app.get('/api/allUsers', function(req, res){
 	});
 });
 
-
 app.listen(8080);
-console.log('8080 is the magic port');
+console.log('Look @ http://localhost:8080');
